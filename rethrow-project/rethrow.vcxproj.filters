@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Vertex.h">
+      <Filter>structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>structs</Filter>
+    </ClInclude>
+    <ClInclude Include="gl.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="shaders.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="sdl.h">
+      <Filter>sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="io.h">
+      <Filter>sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="typedef.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="macros.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="gl.cpp">
+      <Filter>opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders.cpp">
+      <Filter>opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="sdl.cpp">
+      <Filter>sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="io.cpp">
+      <Filter>sdl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="sdl">
+      <UniqueIdentifier>{f73b7299-c191-49a9-9c35-de1d1c19055b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="opengl">
+      <UniqueIdentifier>{73f47e45-d144-4f22-a2b0-baad4ec2d597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{1edfc2b8-cc0c-427d-b900-1d18b03a6490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="structs">
+      <UniqueIdentifier>{6a176b3d-b37a-4325-adfd-706f5d7fd716}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
