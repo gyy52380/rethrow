@@ -2,9 +2,6 @@
 
 #include <SDL2\SDL.h>
 #include <string.h>
-#include <unordered_map>
-
-typedef std::unordered_map<int, bool> key_map;
 
 
 namespace sdl
@@ -54,7 +51,6 @@ void update()
 	}
 	#undef KEY
 }
-
 
 
 }

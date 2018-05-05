@@ -7,10 +7,11 @@
 #include "sdl.h"
 #include "io.h"
 
-#include "shaders.h"
 #include "Vector.h"
 #include "Vertex.h"
-
+#include "shader-manager.h"
+#include "shader-triangle.h"
+#include "renderer.h"
 
 
 
@@ -40,8 +41,7 @@ int main(int argc, char *argv[])
 	}
 
 
-	Vec4 red = vec4(1, 0, 0, 1);
-	printf("sizeof vertex:%d, sizeof vec2:%d, sizeof float:%d\n", sizeof(Vertex), sizeof(Vec2), sizeof(float));
+	const Vec4 red = vec4(1, 0, 0, 1);
 	static Vertex triangle[3];
 	triangle[0].position = vec2(0, 1);
 	triangle[1].position = vec2(1, 0);
@@ -51,13 +51,15 @@ int main(int argc, char *argv[])
 	triangle[1].color = red;
 	triangle[2].color = red;
 
+	gl::shader::triangle::update_data(triangle, 3);
+
 	while (sdl::io::user_quit != true)
 	{
 		sdl::io::update();
 
-		gl::draw_shader_triangle_ct(triangle, sizeof(triangle));
-		gl::swap_frame_buffer(window_handle);
-
+		gl::renderer::clear_screen();
+		gl::shader::draw_all();
+		gl::renderer::swap_framebuffers(window_handle);
 
 	}
 	

@@ -1,0 +1,51 @@
+{
+	"folders":
+	[
+		{
+			"path": "rethrow-project"
+		}
+	],
+
+	"file_exclude_patterns":
+	[
+		"*.vcxproj",
+		"*.vcxproj.filters",
+		"*.vcxproj.user"
+	],
+
+	"SublimeLinter":
+	{
+	    "linters":
+	    {
+	        "clang": {
+	            //"extra_flags": "-Wno-pragma-pack -Wno-pragma-once-outside-header -Wno-missing-braces, -Wno-c++17-extensions",
+	            "extra_flags": "-w",
+	            "include_dirs": [
+	                "${project_path}/rethrow-project/",
+	                "${project_path}/include-dir/"
+	            ],
+	        }
+	    }
+	},
+
+	//easy-clang-complete
+	"settings":
+    {
+      "ecc_common_flags": [
+      		"-IC:/Program Files/LLVM/lib/$clang_version/include",
+      		"-I${project_path}/rethrow-project/",
+	        "-I${project_path}/include-dir/"
+      ],
+      "ecc_verbose": true,
+      "ecc_c_flags" : [ "-std=c11" ],
+      "ecc_cpp_flags" : [ "-std=c++17" ],
+      "ecc_triggers" : [ ".", "->", "::", " ", "	", "(", "[", "\"", "/", "<" ],
+      "ecc_use_libclang" : true,
+      "ecc_clang_binary" : "clang++",
+      "ecc_autocomplete_all" : false,
+      "ecc_use_libclang_caching": true,
+      "ecc_show_type_info": true,
+      "ecc_show_type_body" : true,
+      //"hide_default_completions": false,
+    }
+}

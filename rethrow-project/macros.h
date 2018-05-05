@@ -4,7 +4,6 @@
 #define LEN(array) ((int)(sizeof(array)/sizeof(array[0])))
 
 //execute a block of code only once
-
 #define DO_ONCE_Name2(x, y) DO_ONCE_##x##_##y
 #define DO_ONCE_Name(x, y) DO_ONCE_Name2(x, y)
 #define DO_ONCE_Final(name) static bool name = false; if (!name && (name = true))

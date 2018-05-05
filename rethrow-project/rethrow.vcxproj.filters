@@ -10,9 +10,6 @@
     <ClInclude Include="gl.h">
       <Filter>opengl</Filter>
     </ClInclude>
-    <ClInclude Include="shaders.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
     <ClInclude Include="sdl.h">
       <Filter>sdl</Filter>
     </ClInclude>
@@ -25,13 +22,28 @@
     <ClInclude Include="macros.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="shader-base.h">
+      <Filter>opengl\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="shader-triangle.h">
+      <Filter>opengl\shaders\single shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="shader-manager.h">
+      <Filter>opengl\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>opengl\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="shader-quad.h">
+      <Filter>opengl\shaders\single shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>opengl\shaders\texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="gl.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="shaders.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
     <ClCompile Include="sdl.cpp">
@@ -39,6 +51,21 @@
     </ClCompile>
     <ClCompile Include="io.cpp">
       <Filter>sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="shader-base.cpp">
+      <Filter>opengl\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="shader-triangle.cpp">
+      <Filter>opengl\shaders\single shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="shader-manager.cpp">
+      <Filter>opengl\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>opengl\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="shader-quad.cpp">
+      <Filter>opengl\shaders\single shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +80,18 @@
     </Filter>
     <Filter Include="structs">
       <UniqueIdentifier>{6a176b3d-b37a-4325-adfd-706f5d7fd716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="opengl\shaders">
+      <UniqueIdentifier>{6bd89a1e-dcdf-4b52-a7f5-c263f3938a7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="opengl\shaders\single shaders">
+      <UniqueIdentifier>{b81ec5cf-8bef-416d-a237-801eed5a5167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="opengl\renderer">
+      <UniqueIdentifier>{2ebea4fb-dc81-4758-9edb-911b8e9f25aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="opengl\shaders\texture">
+      <UniqueIdentifier>{ed1bfff6-5283-41ba-92f6-1a2c69d4f3d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

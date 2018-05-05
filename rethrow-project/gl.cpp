@@ -2,9 +2,9 @@
 
 #include <GL/glew.h>
 
-#include "shaders.h"
-
 #include <cstdio>
+
+#include "shader-manager.h"
 
 #ifdef GL_DEBUG
 #include <Windows.h>
@@ -64,7 +64,7 @@ bool gl_init()
 	
 	glEnable(GL_MULTISAMPLE);
 
-	init_shaders();
+	shader::init_all();
 
 	return true;
 }

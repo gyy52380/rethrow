@@ -4,6 +4,7 @@ union Vec2
 {
 	float data[2];
 	struct { float x, y; };
+	struct { float w, h; };
 };
 
 inline Vec2 vec2(float x, float y)
