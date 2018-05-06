@@ -13,14 +13,19 @@
 
 namespace gl::shader::quad
 {
+	using texture::Texture;
+	using texture::atlasID;
 
 	GLuint ID;
 	GLuint vao;
 
 	enum Attribute { COORD, WH, TEXTURE, ATTRIB_COUNT };
-	GLuint vbo[VBO_COUNT];
+	GLuint vbo[ATTRIB_COUNT];
 
-	u32 data_count;
+	u32 element_count = 0;
+	bool element_count_valid = false;
+
+	atlasID active_texture;
 
 
 	void init()
@@ -70,13 +75,71 @@ namespace gl::shader::quad
 			glEnableVertexArrayAttrib(vao, i);
 	}
 
-	void update_data_vertex(Vec2 *data, u32 count, Attribute attribute) //TODO handle type of data..
-	{
-			data_count = count;
-			const u32 size = count*sizeof(decltype(data[0]));
 
-			glBindBuffer(GL_ARRAY_BUFFER, vbo[attribute]);
-			glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	void set_count(u32 count)
+	{
+		element_count = count;
+		element_count_valid = true;
 	}
 
+	//TODO test if void* decltype works
+	void update_data_coord(Vec2 *data)
+	{
+		if (!element_count_valid)
+		{
+			printf("Element count for this frame wasnt set! Set it before updating data.\n");
+			return;
+		}
+
+		const u32 size = element_count*sizeof(decltype(data[0]));
+
+		glBindBuffer(GL_ARRAY_BUFFER, vbo[COORD]);
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	}
+
+	void update_data_wh(Vec2 *data)
+	{
+
+		if (!element_count_valid)
+		{
+			printf("Element count for this frame wasnt set! Set it before updating data.\n");
+			return;
+		}
+
+		const u32 size = element_count*sizeof(decltype(data[0]));
+
+		glBindBuffer(GL_ARRAY_BUFFER, vbo[WH]);
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	}
+
+	void update_data_tex(texture::Texture *data) //TODO handle type of data..
+	{
+		////this part can cause a race condition later on!!!
+		//element_count = count;
+		if (!element_count_valid)
+		{
+			printf("Element count for this frame wasnt set! Set it before updating data.\n");
+			return;
+		}
+
+		active_texture = data[0].ID;
+
+		const u32 size = element_count*sizeof(decltype(data[0]));
+
+		glBindBuffer(GL_ARRAY_BUFFER, vbo[TEXTURE]);
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	}
+
+	void draw() //TODO texture atlas binding
+	{
+	 	glUseProgram(ID);
+		glBindVertexArray(vao);
+		glBindTexture(GL_TEXTURE_2D, active_texture);
+		glDrawArrays(GL_POINTS, 0, element_count);
+
+		element_count_valid = false;
+		//this flag must be reset after drawing.
+		//every frame requires resetting count of elements to draw.
+		//this will probably prevent data races later on
+	}
 }

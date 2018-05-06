@@ -11,6 +11,7 @@
 #include "Vertex.h"
 #include "shader-manager.h"
 #include "shader-triangle.h"
+#include "shader-quad.h"
 #include "renderer.h"
 
 
@@ -43,13 +44,14 @@ int main(int argc, char *argv[])
 
 	const Vec4 red = vec4(1, 0, 0, 1);
 	static Vertex triangle[3];
-	triangle[0].position = vec2(0, 1);
-	triangle[1].position = vec2(1, 0);
-	triangle[2].position = vec2(-1, 0);
 
-	triangle[0].color = red;
-	triangle[1].color = red;
-	triangle[2].color = red;
+	static Vec2 positions[3] = { vec2(5, 2), vec2(0, 11), vec2(4, 2) }; //colinear
+	gl::renderer::convert_coords_to_gl_space(vec2(10.0f, 10.0f), positions, 3);
+
+	for (int i = 0; i < 3; i++)
+		triangle[i] = {positions[i], vec2(0, 0), red};
+
+	 
 
 	gl::shader::triangle::update_data(triangle, 3);
 

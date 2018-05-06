@@ -1,20 +1,22 @@
 #pragma once
 
-#include "typedef.h"
+#include <GL/glew.h>
 #include "Vector.h"
 
 
 namespace gl::texture
 {
 
-	typedef u32 atlasID;
+	typedef GLuint texID;
+	typedef texID atlasID;
 
 	struct Texture
 	{
-		atlasID ID = 0;
+		GLuint ID = 0; //opengl ID
+		int channels = 4;
 
-		Vec2 coord;
-		Vec2 wh;
+		Vec2 coord; //uv coords, for atlas and such just (0, 0)
+		Vec2 wh;    //uv wh, for atlas and such just (1, 1)
 	};
 
 }

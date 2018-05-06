@@ -61,8 +61,13 @@ bool gl_init()
 #endif
 	//////
 	
-	
+	//enable multisampling for gl (sdl already done)
 	glEnable(GL_MULTISAMPLE);
+
+	//enable blending (transparency)
+	//glEnable(GL_BLEND);
+	//glBlendEquation(GL_FUNC_ADD);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	shader::init_all();
 

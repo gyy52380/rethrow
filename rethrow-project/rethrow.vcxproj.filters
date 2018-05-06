@@ -40,6 +40,9 @@
     <ClInclude Include="Texture.h">
       <Filter>opengl\shaders\texture</Filter>
     </ClInclude>
+    <ClInclude Include="texture-manager.h">
+      <Filter>opengl\shaders\texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -66,6 +69,9 @@
     </ClCompile>
     <ClCompile Include="shader-quad.cpp">
       <Filter>opengl\shaders\single shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="texture-manager.cpp">
+      <Filter>opengl\shaders\texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
