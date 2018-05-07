@@ -6,35 +6,46 @@ layout (points) in;
 layout (triangle_strip) out;
 layout (max_vertices = 4) out;
 
-in float gs_width;
-in float gs_height;
-in float gs_width_uv;
-in float gs_height_uv;
+in VS_OUT_GS_IN
+{
+    float width;
+    float height;
 
-out vec2 fs_relative_vertex_uv;
+    vec2 tex_coord;
+    float width_uv;
+    float height_uv;
+
+} gs_in[];
+
+
+out vec2 fs_uv;
+
 
 void main()
 {
     vec4 position = gl_in[0].gl_Position;
 
+    //ordering matters
     //bottom-left vertex
     gl_Position = position; //+ vec2(0, 0)
-    fs_relative_vertex_uv = vec2(0, 0);
+    fs_uv = vec2(0, 0) + gs_in[0].tex_coord;
+    EmitVertex();
+    
+    //bottom-right vertex
+    gl_Position = position + vec4(gs_in[0].width, 0, 0, 1);
+    fs_uv = vec2(gs_in[0].width_uv, 0) + gs_in[0].tex_coord;
     EmitVertex();
 
     //top-left vertex
-    gl_Position = position + vec2(0, gs_height);
-    fs_relative_vertex_uv = vec2(0, gs_height_uv);
+    gl_Position = position + vec4(0, gs_in[0].height, 0, 1);
+    fs_uv = vec2(0, gs_in[0].height_uv) + gs_in[0].tex_coord;
     EmitVertex();
+
+    
 
     //top-right vertex
-    gl_Position = position + vec2(gs_width, gs_height);
-    fs_relative_vertex_uv = vec2(gs_width_uv, gs_height_uv);
-    EmitVertex();
-
-    //bottom-right vertex
-    gl_Position = position + vec2(gs_width, 0);
-    fs_relative_vertex_uv = vec2(gs_width_uv, 0);
+    gl_Position = position + vec4(gs_in[0].width, gs_in[0].height, 0, 1);
+    fs_uv = vec2(gs_in[0].width_uv, gs_in[0].height_uv) + gs_in[0].tex_coord;
     EmitVertex();
 
     EndPrimitive();

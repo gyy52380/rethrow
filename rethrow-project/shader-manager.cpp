@@ -11,7 +11,7 @@ namespace gl::shader
 	void init_all()
 	{
 		triangle::init();
-		//quad::init();
+		quad::init();
 	}
 
 	//TODO better update-data interface for renderer users
@@ -20,7 +20,7 @@ namespace gl::shader
 	void draw_all()
 	{
 		triangle::draw();
-		//quad::draw();
+		quad::draw();
 	}
 
 }
