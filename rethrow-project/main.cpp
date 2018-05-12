@@ -56,10 +56,10 @@ int main(int argc, char *argv[])
 
 
 	//quad test
-	Vec2 q_pos = vec2(5, 5);
-	gl::renderer::convert_coords_to_gl_space(vec2(12.0f, 9.0f), &q_pos, 1); //put this in shader
+	Vec2 q_pos = vec2(0.0f, 5.0f);
+	//gl::renderer::convert_coords_to_gl_space(vec2(20.0f, 20.0f), &q_pos, 1); //put this in shader
 
-	Vec2 q_wh = vec2(1, 1);
+	Vec2 q_wh = vec2(10.0f, 10.0f); //this also must be converted to gl coords!
 	gl::texture::Texture q_tex = gl::texture::make_simple_texture("../data/textures/sample_atlas.png");
 
 	gl::shader::quad::set_count(1);
@@ -75,6 +75,9 @@ int main(int argc, char *argv[])
 		gl::renderer::clear_screen();
 		gl::shader::draw_all();
 		gl::renderer::swap_framebuffers(window_handle);
+
+		if (sdl::io::mouse_key_pressed[MOUSE_RIGHT])
+			printf("Mouse pos: %f, %f", sdl::io::mouse_pos.x, sdl::io::mouse_pos.y);
 
 	}
 	

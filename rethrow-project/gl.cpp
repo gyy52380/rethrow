@@ -69,6 +69,9 @@ bool gl_init()
 	glBlendEquation(GL_FUNC_ADD);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	//set viewport
+	glViewport(0, 0, 640, 480);
+
 	shader::init_all();
 
 	return true;

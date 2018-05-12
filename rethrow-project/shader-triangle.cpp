@@ -24,9 +24,9 @@ namespace gl::shader::triangle
 	{
 		ID = glCreateProgram();
 
-		GLuint vert_id = compile_shader("shaders/sample.vs", GL_VERTEX_SHADER);
+		GLuint vert_id = compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/sample.vs", GL_VERTEX_SHADER);
 		glAttachShader(ID, vert_id);
-		GLuint frag_id = compile_shader("shaders/sample.fs", GL_FRAGMENT_SHADER);
+		GLuint frag_id = compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/sample.fs", GL_FRAGMENT_SHADER);
 		glAttachShader(ID, frag_id);
 
 		link_shader_program(ID);
@@ -45,7 +45,7 @@ namespace gl::shader::triangle
 
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
 		for (int i = 0; i <= 2; i++)
 			glEnableVertexArrayAttrib(vao, i);

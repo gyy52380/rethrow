@@ -1,6 +1,8 @@
 #include "shader-quad.h"
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <cstddef>
 #include <cstdio>
@@ -33,11 +35,11 @@ namespace gl::shader::quad
 	{
 		ID = glCreateProgram();
 
-		GLuint vert_id = compile_shader("shaders/quad.vs", GL_VERTEX_SHADER);
+		GLuint vert_id = compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/quad.vs", GL_VERTEX_SHADER);
 		glAttachShader(ID, vert_id);
-		GLuint geom_id = compile_shader("shaders/quad.gs", GL_GEOMETRY_SHADER);
+		GLuint geom_id = compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/quad.gs", GL_GEOMETRY_SHADER);
 		glAttachShader(ID, geom_id);
-		GLuint frag_id = compile_shader("shaders/quad.fs", GL_FRAGMENT_SHADER);
+		GLuint frag_id = compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/quad.fs", GL_FRAGMENT_SHADER);
 		glAttachShader(ID, frag_id);
 
 		link_shader_program(ID);
@@ -53,23 +55,29 @@ namespace gl::shader::quad
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 
+
 		glGenBuffers(LEN(vbo), vbo);
 
 		glBindBuffer(GL_ARRAY_BUFFER, vbo[COORD]);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vec2), (void*)0); //vertex coord
 
 		glBindBuffer(GL_ARRAY_BUFFER, vbo[WH]);
-		glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(Vec2), (void*)offsetof(Vec2, w)); //quad width
-		glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(Vec2), (void*)offsetof(Vec2, h)); //quad height
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vec2), (void*)0); //quad wh
 
 		using texture::Texture;
 		glBindBuffer(GL_ARRAY_BUFFER, vbo[TEXTURE]);
-		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Texture), (void*)offsetof(Texture, coord)); //"texture vertex" coord on atlas
-		glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(Texture), (void*)offsetof(Texture, wh.w)); //texture quad width
-		glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(Texture), (void*)offsetof(Texture, wh.h)); //texture quad height
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Texture), (void*)offsetof(Texture, coord)); //"texture vertex" coord on atlas
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Texture), (void*)offsetof(Texture, wh)); //texture wh
 
-		for (int i = 0; i <= 5; i++)
+		for (int i = 0; i <= 3; i++)
 			glEnableVertexArrayAttrib(vao, i);
+
+		//set uniforms
+		const glm::mat4 projection = glm::ortho(0.0f, 32.0f, 0.0f, 32.0f);
+		set_mat4(ID, "projection", projection);
+
+		const Vec2 wh_scale = vec2(2.0f/32.0f, 2.0f/32.0f);
+		set_vec2(ID, "wh_scale", wh_scale);
 	}
 
 

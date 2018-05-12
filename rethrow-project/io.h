@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector.h"
+
 //Key enum is sorted ascending, so K_TOTAL is always the biggest value
 // K_ == SDLK_ for all values here
 enum Key
@@ -76,30 +78,37 @@ enum Key
 	KEY_y = 'y',
 	KEY_z = 'z',
 
-	KEY_TOTAL
+	KEY_TOTAL = 1024 //arbitrary max num
 };
 
-namespace sdl
+enum Mouse
 {
-namespace io
+	MOUSE_INVALID,
+
+	MOUSE_LEFT,
+	MOUSE_MIDDLE,
+	MOUSE_RIGHT,
+
+	MOUSE_TOTAL
+};
+
+namespace sdl::io
 {
 
 
+	void update();
+
+	extern bool user_quit;
+
+	extern bool key_pressed[KEY_TOTAL];
+	extern bool key_released[KEY_TOTAL];
+	extern bool key_held[KEY_TOTAL];
+
+	extern bool mouse_key_pressed[MOUSE_TOTAL];
+	extern bool mouse_key_released[MOUSE_TOTAL];
+	extern bool mouse_key_held[MOUSE_TOTAL];
+
+	extern Vec2 mouse_pos;
 
 
-//inline bool user_quit() { extern bool user_quit; return user_quit; }
-//
-//inline bool key_released(Key k) { extern bool *key_released; return key_released[k]; }
-//inline bool key_pressed(Key k) { extern bool *key_pressed;	return key_pressed[k]; }
-//inline bool key_held(Key k) { extern bool *key_held; return key_held[k]; }
-
-void update();
-
-extern bool user_quit;
-extern bool key_pressed[KEY_TOTAL];
-extern bool key_released[KEY_TOTAL];
-extern bool key_held[KEY_TOTAL];
-
-
-}
 }

@@ -3,8 +3,7 @@
 #version 330 core
 
 layout (points) in;
-layout (triangle_strip) out;
-layout (max_vertices = 4) out;
+layout (triangle_strip, max_vertices = 4) out;
 
 in VS_OUT_GS_IN
 {
@@ -27,24 +26,22 @@ void main()
 
     //ordering matters
     //bottom-left vertex
-    gl_Position = position; //+ vec2(0, 0)
+    gl_Position = position;
     fs_uv = vec2(0, 0) + gs_in[0].tex_coord;
     EmitVertex();
-    
+
     //bottom-right vertex
-    gl_Position = position + vec4(gs_in[0].width, 0, 0, 1);
+    gl_Position = position + vec4(gs_in[0].width, 0, 0, 0); //must be zero here...
     fs_uv = vec2(gs_in[0].width_uv, 0) + gs_in[0].tex_coord;
     EmitVertex();
 
     //top-left vertex
-    gl_Position = position + vec4(0, gs_in[0].height, 0, 1);
+    gl_Position = position + vec4(0, gs_in[0].height, 0, 0);
     fs_uv = vec2(0, gs_in[0].height_uv) + gs_in[0].tex_coord;
     EmitVertex();
 
-    
-
     //top-right vertex
-    gl_Position = position + vec4(gs_in[0].width, gs_in[0].height, 0, 1);
+    gl_Position = position + vec4(gs_in[0].width, gs_in[0].height, 0, 0);
     fs_uv = vec2(gs_in[0].width_uv, gs_in[0].height_uv) + gs_in[0].tex_coord;
     EmitVertex();
 
