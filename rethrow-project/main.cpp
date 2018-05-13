@@ -72,6 +72,14 @@ int main(int argc, char *argv[])
 	{
 		sdl::io::update();
 
+		if (sdl::io::key_held[KEY_w]) q_pos.y += 0.001;
+		if (sdl::io::key_held[KEY_s]) q_pos.y -= 0.001;
+		if (sdl::io::key_held[KEY_a]) q_pos.x -= 0.001;
+		if (sdl::io::key_held[KEY_d]) q_pos.x += 0.001;
+
+		gl::shader::quad::set_count(1);
+		gl::shader::quad::update_data_coord(&q_pos);
+
 		gl::renderer::clear_screen();
 		gl::shader::draw_all();
 		gl::renderer::swap_framebuffers(window_handle);

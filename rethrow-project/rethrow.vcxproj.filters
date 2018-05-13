@@ -43,6 +43,9 @@
     <ClInclude Include="texture-manager.h">
       <Filter>opengl\shaders\texture</Filter>
     </ClInclude>
+    <ClInclude Include="shader-tex-color-indexed-triangle.h">
+      <Filter>opengl\shaders\single shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -72,6 +75,9 @@
     </ClCompile>
     <ClCompile Include="texture-manager.cpp">
       <Filter>opengl\shaders\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="shader-tex-color-indexed-triangle.cpp">
+      <Filter>opengl\shaders\single shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

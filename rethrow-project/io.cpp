@@ -40,7 +40,7 @@ namespace sdl::io
 		case SDL_QUIT:
 		{
 			user_quit = true;
-			
+
 		}	break;
 
 		case SDL_KEYDOWN:
@@ -48,7 +48,7 @@ namespace sdl::io
 			const auto KEY = event.key.keysym.sym;
 
 			if (KEY > KEY_TOTAL)
-			break;
+				break;
 
 			if (key_held[KEY] == false)
 				key_pressed[KEY] = true;

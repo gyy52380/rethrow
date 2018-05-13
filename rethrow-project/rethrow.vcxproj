@@ -27,6 +27,7 @@
     <ClInclude Include="shader-base.h" />
     <ClInclude Include="shader-manager.h" />
     <ClInclude Include="shader-quad.h" />
+    <ClInclude Include="shader-tex-color-indexed-triangle.h" />
     <ClInclude Include="shader-triangle.h" />
     <ClInclude Include="texture-manager.h" />
     <ClInclude Include="Texture.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="shader-base.cpp" />
     <ClCompile Include="shader-manager.cpp" />
     <ClCompile Include="shader-quad.cpp" />
+    <ClCompile Include="shader-tex-color-indexed-triangle.cpp" />
     <ClCompile Include="shader-triangle.cpp" />
     <ClCompile Include="texture-manager.cpp" />
   </ItemGroup>
