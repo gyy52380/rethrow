@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-namespace sdl::io
+namespace io
 {
 
 

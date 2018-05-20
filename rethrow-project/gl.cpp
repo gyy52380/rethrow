@@ -5,6 +5,7 @@
 #include <cstdio>
 
 #include "shader-manager.h"
+#include "window.h"
 
 #ifdef GL_DEBUG
 #include <Windows.h>
@@ -39,7 +40,7 @@ namespace gl
 {
 
 
-bool gl_init()
+bool init()
 {
 #ifdef GL_DEBUG
 	glewExperimental = GL_TRUE;
@@ -70,7 +71,7 @@ bool gl_init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//set viewport
-	glViewport(0, 0, 640, 480);
+	glViewport(0, 0, window::screen_width, window::screen_height);
 
 	shader::init_all();
 

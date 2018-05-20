@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SDL2/SDL.h"
+
 #include "Vector.h"
 
 //Key enum is sorted ascending, so K_TOTAL is always the biggest value
@@ -92,7 +94,7 @@ enum Mouse
 	MOUSE_TOTAL
 };
 
-namespace sdl::io
+namespace io
 {
 
 

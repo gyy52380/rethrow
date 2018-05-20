@@ -5,7 +5,7 @@ namespace gl
 {
 
 
-bool gl_init();
+bool init();
 
 
 }

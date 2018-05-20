@@ -10,9 +10,6 @@
     <ClInclude Include="gl.h">
       <Filter>opengl</Filter>
     </ClInclude>
-    <ClInclude Include="sdl.h">
-      <Filter>sdl</Filter>
-    </ClInclude>
     <ClInclude Include="io.h">
       <Filter>sdl</Filter>
     </ClInclude>
@@ -43,7 +40,10 @@
     <ClInclude Include="texture-manager.h">
       <Filter>opengl\shaders\texture</Filter>
     </ClInclude>
-    <ClInclude Include="shader-tex-color-indexed-triangle.h">
+    <ClInclude Include="window.h">
+      <Filter>sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="shader-indexed-triangle.h">
       <Filter>opengl\shaders\single shaders</Filter>
     </ClInclude>
   </ItemGroup>
@@ -51,9 +51,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="gl.cpp">
       <Filter>opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="sdl.cpp">
-      <Filter>sdl</Filter>
     </ClCompile>
     <ClCompile Include="io.cpp">
       <Filter>sdl</Filter>
@@ -76,7 +73,10 @@
     <ClCompile Include="texture-manager.cpp">
       <Filter>opengl\shaders\texture</Filter>
     </ClCompile>
-    <ClCompile Include="shader-tex-color-indexed-triangle.cpp">
+    <ClCompile Include="window.cpp">
+      <Filter>sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="shader-indexed-triangle.cpp">
       <Filter>opengl\shaders\single shaders</Filter>
     </ClCompile>
   </ItemGroup>
