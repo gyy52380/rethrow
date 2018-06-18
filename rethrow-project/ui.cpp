@@ -4,6 +4,7 @@
 
 #include "lib/imgui/imgui.h"
 #include "io.h"
+#include "window.h"
 
 namespace ui
 {
@@ -98,6 +99,8 @@ namespace ui
 	
 	void begin_ui_frame()
 	{
+		extern SDL_Window* the_window;
+
 	    ImGuiIO& io = ImGui::GetIO();
 
 	    int w, h;
@@ -108,7 +111,7 @@ namespace ui
 	    io.DisplaySize = ImVec2((float) w, (float) h);
 	    io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float) display_w / w) : 0, h > 0 ? ((float) display_h / h) : 0);
 
-	    double current_time = SDL_GetTicks() / 1000.0;
+	    double current_time = SDL_GetTicks() / 1000.0f;
 	    io.DeltaTime = time > 0.0 ? (float)(current_time - time) : (float)(1.0f / 60.0f);
 	    time = current_time;
 
@@ -127,7 +130,7 @@ namespace ui
 	    io.MouseWheel = mouse_wheel;
 	    mouse_wheel = 0.0f;
 
-	    if (is_in_camera_mode) return;
+	    //if (is_in_camera_mode) return;
 
 	    SDL_ShowCursor(io.MouseDrawCursor ? 0 : 1);
 	    ImGui::NewFrame();
@@ -137,6 +140,18 @@ namespace ui
 	    ImGui::SetNextWindowSize(ImVec2(350, 200), ImGuiSetCond_FirstUseEver);
 
 	    ImGui::Begin("Scene", NULL, ImGuiWindowFlags_NoCollapse);
+	}
+
+	void end_ui_frame()
+	{
+		//if (is_in_camera_mode) return;
+    	ImGui::End();
+    	ImGui::Render();
+	}
+
+	void render_ui()
+	{
+		
 	}
 
 }
