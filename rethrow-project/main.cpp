@@ -56,10 +56,10 @@ int main(int argc, char *argv[])
 	{
 		io::update();
 
-		if (io::key_held[KEY_w]) q_pos.y += 0.001f;
-		if (io::key_held[KEY_s]) q_pos.y -= 0.001f;
-		if (io::key_held[KEY_a]) q_pos.x -= 0.001f;
-		if (io::key_held[KEY_d]) q_pos.x += 0.001f;
+		if (io::key_held[KEY_w]) q_pos.y += 0.01f;
+		if (io::key_held[KEY_s]) q_pos.y -= 0.01f;
+		if (io::key_held[KEY_a]) q_pos.x -= 0.01f;
+		if (io::key_held[KEY_d]) q_pos.x += 0.01f;
 
 		gl::shader::quad::set_count(1);
 		gl::shader::quad::update_data_coord(&q_pos);
@@ -68,8 +68,11 @@ int main(int argc, char *argv[])
 		gl::shader::draw_all();
 		window::swap_buffers();
 
-		if (io::mouse_key_pressed[MOUSE_RIGHT])
-			printf("Mouse pos: %f, %f", io::mouse_pos.x, io::mouse_pos.y);
+		if (io::key_released[KEY_q])
+			printf("Mouse pos: %f, %f, %i\n", io::mouse_pos.x, io::mouse_pos.y, SDL_GetTicks());
+
+		if (io::mouse_key_released[MOUSE_RIGHT])
+			printf("MOUSE POS: %f, %f, %i\n", io::mouse_pos.x, io::mouse_pos.y, SDL_GetTicks()); 
 
 	}
 	

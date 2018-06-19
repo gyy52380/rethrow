@@ -14,9 +14,9 @@ namespace io
 	bool key_released	[KEY_TOTAL];
 	bool key_held		[KEY_TOTAL];
 
-	bool mouse_key_pressed[MOUSE_TOTAL];
-	bool mouse_key_released[MOUSE_TOTAL];
-	bool mouse_key_held[MOUSE_TOTAL];
+	bool mouse_key_pressed	[MOUSE_TOTAL];
+	bool mouse_key_released	[MOUSE_TOTAL];
+	bool mouse_key_held		[MOUSE_TOTAL];
 
 	Vec2 mouse_pos;
 
@@ -83,7 +83,10 @@ namespace io
 				case SDL_BUTTON_MIDDLE: changed_button = MOUSE_MIDDLE; 	break;
 				case SDL_BUTTON_RIGHT: changed_button = MOUSE_RIGHT; 	break;
 			}
-			mouse_key_pressed[changed_button] = true;
+
+			if (mouse_key_held[changed_button] == false)
+				mouse_key_pressed[changed_button] = true;
+
 			mouse_key_held[changed_button] = true;
 		
 		}	break;
@@ -99,7 +102,10 @@ namespace io
 				case SDL_BUTTON_MIDDLE: changed_button = MOUSE_MIDDLE; 	break;
 				case SDL_BUTTON_RIGHT: changed_button = MOUSE_RIGHT; 	break;
 			}
-			mouse_key_released[changed_button] = true;
+
+			if (mouse_key_held[changed_button] == true)
+				mouse_key_released[changed_button] = true;
+
 			mouse_key_held[changed_button] = false;
 		
 		}	break;
