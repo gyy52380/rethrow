@@ -35,11 +35,11 @@ namespace gl::shader::quad
 	{
 		ID = glCreateProgram();
 
-		GLuint vert_id = compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/quad.vert", GL_VERTEX_SHADER);
+		GLuint vert_id = compile_shader("C:/Users/Petra i Sofija/source/repos/rethrow/rethrow-project/shaders/quad.vert", GL_VERTEX_SHADER);
 		glAttachShader(ID, vert_id);
-		GLuint geom_id = compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/quad.geom", GL_GEOMETRY_SHADER);
+		GLuint geom_id = compile_shader("C:/Users/Petra i Sofija/source/repos/rethrow/rethrow-project/shaders/quad.geom", GL_GEOMETRY_SHADER);
 		glAttachShader(ID, geom_id);
-		GLuint frag_id = compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/quad.frag", GL_FRAGMENT_SHADER);
+		GLuint frag_id = compile_shader("C:/Users/Petra i Sofija/source/repos/rethrow/rethrow-project/shaders/quad.frag", GL_FRAGMENT_SHADER);
 		glAttachShader(ID, frag_id);
 
 		link_shader_program(ID);
@@ -70,7 +70,7 @@ namespace gl::shader::quad
 		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Texture), (void*)offsetof(Texture, wh)); //texture wh
 
 		for (int i = 0; i <= 3; i++)
-			glEnableVertexArrayAttrib(vao, i);
+			glEnableVertexAttribArray(i);
 
 		//set uniforms
 		const glm::mat4 projection = glm::ortho(0.0f, 32.0f, 0.0f, 32.0f);

@@ -45,11 +45,15 @@ bool init()
 #ifdef GL_DEBUG
 	glewExperimental = GL_TRUE;
 #endif
-	if (GLenum error = glewInit())
+
+	GLenum glew_error = glewInit();
+	if (glew_error)
 	{
-		printf("GLEW failed to init. GLEW_ERR: %i\n", error);
+		printf("GLEW failed to init. GLEW_ERR: %i\n", glew_error);
 		return false;
 	}
+
+	printf("OpenGL version supported by this platform (%s): \n", glGetString(GL_VERSION));
 
 #ifdef GL_DEBUG
 	if (glDebugMessageCallbackARB)
