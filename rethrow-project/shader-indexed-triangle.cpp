@@ -8,7 +8,7 @@
 #include "Vertex.h"
 #include "shader-base.h"
 
-namespace gl::shader::tex_color_triangle
+namespace gl::shader::indexed_triangle
 {
 
 	GLuint ID;
@@ -59,7 +59,7 @@ namespace gl::shader::tex_color_triangle
 		set_mat4(ID, "transform", ortho);
 	}
 
-	void update_vertex_data(Vertex *data, u32 size)
+	void set_vertex_data(Vertex *data, u32 size)
 	{
 		element_count = size/sizeof(decltype(data));
 
@@ -67,7 +67,7 @@ namespace gl::shader::tex_color_triangle
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 	}
 
-	void update_index_data(u16 *data, u32 size)
+	void set_index_data(u16 *data, u32 size)
 	{
 		index_count = size/sizeof(decltype(data));
 		index_data_type = GL_UNSIGNED_SHORT;
@@ -76,7 +76,7 @@ namespace gl::shader::tex_color_triangle
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 	}
 
-	void update_index_data(u32 *data, u32 size)
+	void set_index_data(u32 *data, u32 size)
 	{
 		index_count = size/sizeof(decltype(data));
 		index_data_type = GL_UNSIGNED_INT;

@@ -1,10 +1,16 @@
 #include "ui.h"
 
 #include <SDL2/SDL.h>
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "lib/imgui/imgui.h"
 #include "io.h"
 #include "window.h"
+
+#include "shader-base.h"
+#include "shader-indexed-triangle.h"
 
 namespace ui
 {
@@ -38,7 +44,7 @@ namespace ui
 	    io.KeyMap[ImGuiKey_Y]          = SDLK_y;
 	    io.KeyMap[ImGuiKey_Z]          = SDLK_z;
 
-	    io.RenderDrawListsFn  = render;
+	    io.RenderDrawListsFn  = render_ui;
 	    io.SetClipboardTextFn = set_clipboard_text;
 	    io.GetClipboardTextFn = get_clipboard_text;
 	    io.ClipboardUserData  = NULL;
@@ -154,9 +160,52 @@ namespace ui
     	ImGui::Render();
 	}
 
-	void render_ui()
+	void render_ui(ImDrawData* draw_data)
 	{
-		
+		ImGuiIO& io = ImGui::GetIO();
+	    int width = (int)(io.DisplaySize.x * io.DisplayFramebufferScale.x);
+	    int height = (int)(io.DisplaySize.y * io.DisplayFramebufferScale.y);
+	    if (width == 0 || height == 0) //dont render if window is minimised
+	        return;
+
+	    //scale according to ratio of screen_wh and drawable_wh
+	    draw_data->ScaleClipRects(io.DisplayFramebufferScale);
+
+	    //needed opengl states: transparency, face culling, depth and scissor test polygon fill
+	    glEnable(GL_BLEND);
+	    glBlendEquation(GL_FUNC_ADD);
+	    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	    glDisable(GL_CULL_FACE);
+	    glDisable(GL_DEPTH_TEST);
+	    glEnable(GL_SCISSOR_TEST);
+	    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	    //sending to shader and drawing
+	    using namespace gl::shader::indexed_triangle;
+
+	    const GLuint shader_ID = gl::shader::indexed_triangle::ID;
+
+	    const glm::mat4 ortho_transform = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
+	    gl::shader::set_mat4(shader_ID, "transform", ortho_transform);
+
+	    int offset = 0;
+	    for (int n = 0; n < draw_data->CmdListsCount; n++)
+	    {
+	        const ImDrawList* cmd_list = draw_data->CmdLists[n];
+	        const ImDrawIdx* idx_buffer_offset = 0;
+
+	        update_vertex_data(cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size);
+
+	        /*
+	        *TODO
+			*change Vertex vec4 color to union {u32, u8[4]}
+			*change vertex attribute in all opengl shaders!!! (double check)
+			*add conversion functions for colors
+			*finish imgui draw function
+			*maybe make templated vectors ??
+	        */
+
+	    }
 	}
 
 }
