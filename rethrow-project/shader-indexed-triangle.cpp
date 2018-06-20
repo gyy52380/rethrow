@@ -26,9 +26,9 @@ namespace gl::shader::tex_color_triangle
 	{
 		ID = glCreateProgram();
 
-		GLuint vert_id = compile_shader("C:/Users/Petra i Sofija/source/repos/rethrow/rethrow-project/shaders/indexed-triangle.vert", GL_VERTEX_SHADER);
+		GLuint vert_id = compile_shader("shaders/indexed-triangle.vert", GL_VERTEX_SHADER);
 		glAttachShader(ID, vert_id);
-		GLuint frag_id = compile_shader("C:/Users/Petra i Sofija/source/repos/rethrow/rethrow-project/shaders/indexed-triangle.frag", GL_FRAGMENT_SHADER);
+		GLuint frag_id = compile_shader("shaders/indexed-triangle.frag", GL_FRAGMENT_SHADER);
 		glAttachShader(ID, frag_id);
 
 		link_shader_program(ID);
