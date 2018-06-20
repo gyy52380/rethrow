@@ -66,7 +66,7 @@ bool init()
 #endif
 	//////
 	
-	//enable multisampling for gl (sdl already done)
+	//enable multisampling for gl (this must also be done by sdl)
 	glEnable(GL_MULTISAMPLE);
 
 	//enable blending (transparency)

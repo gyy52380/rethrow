@@ -63,8 +63,10 @@ namespace ui
 	    {
 	        if (event->wheel.y > 0)
 	            mouse_wheel = 1;
-	        if (event->wheel.y < 0)
+	        else if (event->wheel.y < 0)
 	            mouse_wheel = -1;
+			else
+				mouse_wheel = 0;
 	    } break;
 
 	    case SDL_MOUSEBUTTONDOWN:
@@ -103,16 +105,19 @@ namespace ui
 
 	    ImGuiIO& io = ImGui::GetIO();
 
-	    int w, h;
-	    int display_w, display_h;
-	    SDL_GetWindowSize(the_window, &w, &h);
-	    SDL_GL_GetDrawableSize(the_window, &display_w, &display_h);
+		window::update_screen_size(); //very likely not needed
+		int screen_w 	= window::screen_width;
+		int screen_h 	= window::screen_height;
+		int drawable_w 	= window::drawable_width;
+		int drawable_h 	= window::drawable_height;
 
-	    io.DisplaySize = ImVec2((float) w, (float) h);
-	    io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float) display_w / w) : 0, h > 0 ? ((float) display_h / h) : 0);
+		io.DisplaySize = ImVec2((float)screen_w, (float)screen_h);
+		io.DisplayFramebufferScale = ImVec2(screen_w > 0 ? ((float)drawable_w / screen_w) : 0,
+											screen_h > 0 ? ((float)drawable_h / screen_h) : 0);
 
-	    double current_time = SDL_GetTicks() / 1000.0f;
-	    io.DeltaTime = time > 0.0 ? (float)(current_time - time) : (float)(1.0f / 60.0f);
+
+		double current_time = SDL_GetTicks() / 1000.0f;
+		io.DeltaTime = time > 0.0 ? (float)(current_time - time) : (float)(1.0f / 60.0f);
 	    time = current_time;
 
 	    int mx, my;
@@ -135,7 +140,7 @@ namespace ui
 	    SDL_ShowCursor(io.MouseDrawCursor ? 0 : 1);
 	    ImGui::NewFrame();
 
-
+		//this will probably have to be changed
 	    ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
 	    ImGui::SetNextWindowSize(ImVec2(350, 200), ImGuiSetCond_FirstUseEver);
 
