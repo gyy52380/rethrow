@@ -18,6 +18,10 @@ namespace window
 	int screen_width = 640;
 	int screen_height = 480;
 
+	//drawable wh
+	int drawable_width = 0;
+	int drawable_height = 0;
+
 	bool init()
 	{
 		//init sdl
@@ -58,7 +62,11 @@ namespace window
 			return false;
 		}
 
-		if (!gl::init())  //internal error handling
+		update_screen_size();
+
+
+		bool gl_inited = gl::init(); //internal error handling
+		if (gl_inited == false)  
 			return false;
 
 		//ui::init(); ...
@@ -78,6 +86,7 @@ namespace window
 	void update_screen_size()
 	{
 		SDL_GetWindowSize(the_window, &screen_width, &screen_height);
+		SDL_GL_GetDrawableSize(the_window, &drawable_width, &drawable_height);
 	}
 
 	void swap_buffers()

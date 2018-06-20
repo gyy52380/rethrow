@@ -14,6 +14,8 @@
 #include "renderer.h"
 #include "texture-manager.h"
 
+#include "gl.h"
+
 
 #undef main
 int main(int argc, char *argv[])
@@ -41,9 +43,8 @@ int main(int argc, char *argv[])
 
 	//quad test
 	Vec2 q_pos = vec2(0.0f, 5.0f);
-	//gl::renderer::convert_coords_to_gl_space(vec2(20.0f, 20.0f), &q_pos, 1); //put this in shader
+	Vec2 q_wh = vec2(10.0f, 10.0f);
 
-	Vec2 q_wh = vec2(10.0f, 10.0f); //this also must be converted to gl coords! done in shader now
 	gl::texture::Texture q_tex = gl::texture::make_simple_texture("../data/textures/sample_atlas.png");
 
 	gl::shader::quad::set_count(1);
@@ -69,10 +70,8 @@ int main(int argc, char *argv[])
 		window::swap_buffers();
 
 		if (io::key_released[KEY_q])
-			printf("Mouse pos: %f, %f, %i\n", io::mouse_pos.x, io::mouse_pos.y, SDL_GetTicks());
-
-		if (io::mouse_key_released[MOUSE_RIGHT])
-			printf("MOUSE POS: %f, %f, %i\n", io::mouse_pos.x, io::mouse_pos.y, SDL_GetTicks()); 
+			printf("Screen wh: %i, %i. Drawable wh: %i, %i\n",
+				window::screen_width, window::screen_height, window::drawable_width, window::drawable_height);
 
 	}
 	

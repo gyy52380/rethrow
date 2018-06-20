@@ -11,6 +11,9 @@ namespace window
 	extern int screen_width;
 	extern int screen_height;
 
+	extern int drawable_width;
+	extern int drawable_height;
+
 	bool init();
 	void cleanup();
 

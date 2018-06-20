@@ -75,11 +75,16 @@ bool init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//set viewport
-	glViewport(0, 0, window::screen_width, window::screen_height);
+	update_viewport(window::drawable_width, window::drawable_height);
 
 	shader::init_all();
 
 	return true;
+}
+
+void update_viewport(int w, int h, int blx, int bly) //bottom left x y
+{
+	glViewport(blx, bly, w, h);
 }
 
 }

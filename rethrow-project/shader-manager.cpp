@@ -1,7 +1,7 @@
 #include "shader-manager.h"
 
 #include "shader-triangle.h"
-#include "shader-quad.h"	
+#include "shader-quad.h"
 
 
 namespace gl::shader

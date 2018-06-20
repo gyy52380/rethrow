@@ -3,6 +3,9 @@
 #include <SDL2\SDL.h>
 #include <string.h>
 
+#include "window.h"
+#include "gl.h"
+
 
 namespace io
 {
@@ -40,6 +43,13 @@ namespace io
 		case SDL_QUIT:
 		{
 			user_quit = true;
+
+		}	break;
+
+		case SDL_WINDOWEVENT:
+		{
+			window::update_screen_size();
+			gl::update_viewport(window::drawable_width, window::drawable_height); //this is super ugly here, change later
 
 		}	break;
 
