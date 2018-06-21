@@ -69,7 +69,8 @@ namespace window
 		if (gl_inited == false)  
 			return false;
 
-		//ui::init(); ...
+
+		ui::init();
 
 		return true;
 	}
@@ -79,7 +80,7 @@ namespace window
 		SDL_GL_DeleteContext(the_gl_context);
 		SDL_DestroyWindow(the_window);
 
-		//ui::cleanup(); ...
+		ui::cleanup();
 		SDL_Quit();
 	}
 

@@ -17,6 +17,8 @@
 
 #include "gl.h"
 
+#include "ui.h"
+
 
 #undef main
 int main(int argc, char *argv[])
@@ -70,6 +72,10 @@ int main(int argc, char *argv[])
 	while (io::user_quit != true)
 	{
 		io::update();
+
+		ui::begin_frame();
+		ui::end_frame();
+
 
 		if (io::key_held[KEY_w]) q_pos.y += 0.01f;
 		if (io::key_held[KEY_s]) q_pos.y -= 0.01f;

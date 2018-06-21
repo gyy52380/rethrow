@@ -21,6 +21,12 @@
   <ItemGroup>
     <ClInclude Include="gl.h" />
     <ClInclude Include="io.h" />
+    <ClInclude Include="lib\imgui\imconfig.h" />
+    <ClInclude Include="lib\imgui\imgui.h" />
+    <ClInclude Include="lib\imgui\imgui_internal.h" />
+    <ClInclude Include="lib\imgui\stb_rect_pack.h" />
+    <ClInclude Include="lib\imgui\stb_textedit.h" />
+    <ClInclude Include="lib\imgui\stb_truetype.h" />
     <ClInclude Include="macros.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="shader-base.h" />
@@ -31,6 +37,7 @@
     <ClInclude Include="texture-manager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="typedef.h" />
+    <ClInclude Include="ui.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="window.h" />
@@ -38,6 +45,8 @@
   <ItemGroup>
     <ClCompile Include="gl.cpp" />
     <ClCompile Include="io.cpp" />
+    <ClCompile Include="lib\imgui\imgui.cpp" />
+    <ClCompile Include="lib\imgui\imgui_draw.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="shader-base.cpp" />
@@ -46,6 +55,7 @@
     <ClCompile Include="shader-quad.cpp" />
     <ClCompile Include="shader-triangle.cpp" />
     <ClCompile Include="texture-manager.cpp" />
+    <ClCompile Include="ui.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

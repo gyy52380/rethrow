@@ -46,6 +46,27 @@
     <ClInclude Include="shader-indexed-triangle.h">
       <Filter>opengl\shaders\single shaders</Filter>
     </ClInclude>
+    <ClInclude Include="ui.h">
+      <Filter>sdl</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imconfig.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imgui.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\imgui_internal.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\stb_rect_pack.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\stb_textedit.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\imgui\stb_truetype.h">
+      <Filter>lib\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -79,6 +100,15 @@
     <ClCompile Include="shader-indexed-triangle.cpp">
       <Filter>opengl\shaders\single shaders</Filter>
     </ClCompile>
+    <ClCompile Include="ui.cpp">
+      <Filter>sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\imgui.cpp">
+      <Filter>lib\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\imgui\imgui_draw.cpp">
+      <Filter>lib\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="sdl">
@@ -104,6 +134,12 @@
     </Filter>
     <Filter Include="opengl\shaders\texture">
       <UniqueIdentifier>{ed1bfff6-5283-41ba-92f6-1a2c69d4f3d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{ecfaf482-2714-4a6b-9f16-05d828633a6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\imgui">
+      <UniqueIdentifier>{ced642d6-7e5d-406c-8c89-f99335d1179b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

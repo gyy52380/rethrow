@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "window.h"
+#include "ui.h"
 #include "gl.h"
 
 
@@ -36,6 +37,8 @@ namespace io
 
 		static SDL_Event event;
 		SDL_PollEvent(&event);
+
+		ui::handle_events(&event);
 
 		switch (event.type)
 		{

@@ -20,6 +20,11 @@ double time = 0.0f;
 bool mouse_pressed[3] = { false, false, false };
 float mouse_wheel = 0.0f;
 
+
+void render_ui(ImDrawData* draw_data);
+void set_clipboard_text(void* user_data, const char* text);
+const char* get_clipboard_text(void* user_data);
+
 void init()
 {
 	ImGui::CreateContext();
@@ -106,7 +111,7 @@ void handle_events(SDL_Event* event)
 }
 
 
-void begin_ui_frame()
+void begin_frame()
 {
     ImGuiIO& io = ImGui::GetIO();
 
@@ -146,13 +151,13 @@ void begin_ui_frame()
     ImGui::NewFrame();
 
 	//this will probably have to be changed
-    ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
+    ImGui::SetNextWindowPos(ImVec2(600, 20), ImGuiSetCond_FirstUseEver);
     ImGui::SetNextWindowSize(ImVec2(350, 200), ImGuiSetCond_FirstUseEver);
 
     ImGui::Begin("Scene", NULL, ImGuiWindowFlags_NoCollapse);
 }
 
-void end_ui_frame()
+void end_frame()
 {
 	//if (is_in_camera_mode) return;
 	ImGui::End();
@@ -162,20 +167,24 @@ void end_ui_frame()
 void render_ui(ImDrawData* draw_data)
 {
 	ImGuiIO& io = ImGui::GetIO();
-    int width = (int)(io.DisplaySize.x * io.DisplayFramebufferScale.x);
-    int height = (int)(io.DisplaySize.y * io.DisplayFramebufferScale.y);
+
+    int width 	= (int)(io.DisplaySize.x * io.DisplayFramebufferScale.x);
+    int height 	= (int)(io.DisplaySize.y * io.DisplayFramebufferScale.y);
     if (width == 0 || height == 0) //dont render if window is minimised
         return;
 
     //scale according to ratio of screen_wh and drawable_wh
     draw_data->ScaleClipRects(io.DisplayFramebufferScale);
 
-    //needed opengl states: transparency, face culling, depth and scissor test polygon fill
+    //blending
     glEnable(GL_BLEND);
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    //stuff
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
+
     glEnable(GL_SCISSOR_TEST);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -187,24 +196,57 @@ void render_ui(ImDrawData* draw_data)
     const glm::mat4 ortho_transform = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
     gl::shader::set_mat4(shader_ID, "transform", ortho_transform);
 
-    int offset = 0;
+
     for (int n = 0; n < draw_data->CmdListsCount; n++)
     {
         const ImDrawList* cmd_list = draw_data->CmdLists[n];
         const ImDrawIdx* idx_buffer_offset = 0;
 
-        set_vertex_data((Vertex*)cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size);
 
-        /*
-        *TODO
-		*change Vertex vec4 color to union {u32, u8[4]}
-		*change vertex attribute in all opengl shaders!!! (double check)
-		*add conversion functions for colors
-		*finish imgui draw function
-		*maybe make templated vectors ??
+		/*this works because Vertex and ImDrawVert are practically identical:
+		 *
+		 *struct ImDrawVert			struct Vertex
+		 *{							{
+		 *    ImVec2  pos;				Vec2 position;
+		 *    ImVec2  uv;				Vec2 uv;
+		 *    ImU32   col;				Vec4_bytes color; (== u32)
+		 *};						};
         */
+        set_vertex_data((Vertex*)cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size);
+        set_index_data(cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size);
 
+        //drawing
+        int offset = 0;
+        for (int i = 0; i < cmd_list->CmdBuffer.Size; i++)
+        {
+            const ImDrawCmd* cmd = &cmd_list->CmdBuffer[i];
+            if (cmd->UserCallback)
+            {
+                cmd->UserCallback(cmd_list, cmd);
+            }
+            else
+            {
+            	glBindTexture(GL_TEXTURE_2D, (GLuint)cmd->TextureId); //ABSTRACT THIS OUT ASAP!!!
+                glScissor((int) cmd->ClipRect.x, (int)(height - cmd->ClipRect.w), (int)(cmd->ClipRect.z - cmd->ClipRect.x), (int)(cmd->ClipRect.w - cmd->ClipRect.y));
+
+                gl::shader::indexed_triangle::draw(cmd->ElemCount, offset);
+            }
+            offset += cmd->ElemCount;
+        }
     }
+
+    glDisable(GL_SCISSOR_TEST);
+    //glDisable(GL_BLEND); blend is permanetly turned on for now
+}
+
+void set_clipboard_text(void* user_data, const char* text)
+{
+    SDL_SetClipboardText(text);
+}
+
+const char* get_clipboard_text(void* user_data)
+{
+    return SDL_GetClipboardText();
 }
 
 
