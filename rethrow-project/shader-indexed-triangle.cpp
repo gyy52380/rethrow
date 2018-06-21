@@ -11,93 +11,98 @@
 namespace gl::shader::indexed_triangle
 {
 
-	GLuint ID;
 
-	GLuint vao;
-	GLuint vbo;
-	GLuint ibo;
+GLuint ID;
 
-	//this is total count for all vertices
-	u32 element_count;
-	u32 index_count;
-	GLenum index_data_type;
-	
-	void init(float screen_width, float screen_height)
-	{
-		ID = glCreateProgram();
+GLuint vao;
+GLuint vbo;
+GLuint ibo;
 
-		GLuint vert_id = compile_shader("shaders/indexed-triangle.vert", GL_VERTEX_SHADER);
-		glAttachShader(ID, vert_id);
-		GLuint frag_id = compile_shader("shaders/indexed-triangle.frag", GL_FRAGMENT_SHADER);
-		glAttachShader(ID, frag_id);
+//this is total count for all vertices
+u32 element_count;
+u32 index_count;
+GLenum index_data_type;
 
-		link_shader_program(ID);
+void init(float screen_width, float screen_height)
+{
+	ID = glCreateProgram();
 
-		glDetachShader(ID, vert_id);
-		glDeleteShader(vert_id);
-		glDetachShader(ID, frag_id);
-		glDeleteShader(frag_id);
-		//program now compiled
+	GLuint vert_id = compile_shader("shaders/indexed-triangle.vert", GL_VERTEX_SHADER);
+	glAttachShader(ID, vert_id);
+	GLuint frag_id = compile_shader("shaders/indexed-triangle.frag", GL_FRAGMENT_SHADER);
+	glAttachShader(ID, frag_id);
 
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
+	link_shader_program(ID);
 
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo); //this is not linked to vao state
+	glDetachShader(ID, vert_id);
+	glDeleteShader(vert_id);
+	glDetachShader(ID, frag_id);
+	glDeleteShader(frag_id);
+	//program now compiled
 
-		glGenBuffers(1, &ibo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
 
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo); //this is not linked to vao state
 
-		for (int i = 0; i <= 2; i++)
-			glEnableVertexAttribArray(i);
+	glGenBuffers(1, &ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-		const glm::mat4 ortho = glm::ortho(0.0f, screen_width, 0.0f, screen_height);
-		set_mat4(ID, "transform", ortho);
-	}
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
-	void set_vertex_data(Vertex *data, u32 size)
-	{
-		element_count = size/sizeof(decltype(data));
+	for (int i = 0; i <= 2; i++)
+		glEnableVertexAttribArray(i);
 
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-	}
+	const glm::mat4 ortho = glm::ortho(0.0f, screen_width, 0.0f, screen_height);
+	set_mat4(ID, "transform", ortho);
+}
 
-	void set_index_data(u16 *data, u32 size)
-	{
-		index_count = size/sizeof(decltype(data));
-		index_data_type = GL_UNSIGNED_SHORT;
+void set_vertex_data(Vertex *data, u32 size)
+{
+	element_count = size/sizeof(decltype(data[0]));
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-	}
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+}
 
-	void set_index_data(u32 *data, u32 size)
-	{
-		index_count = size/sizeof(decltype(data));
-		index_data_type = GL_UNSIGNED_INT;
+void set_index_data(u16 *data, u32 size)
+{
+	index_count = size/sizeof(decltype(data[0]));
+	index_data_type = GL_UNSIGNED_SHORT;
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-	}
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+}
 
-	void draw(int count, int offset)
-	{
-		if (offset < 0 || (offset + count) > index_count)
-	    {
-	        printf("Invalid range passed to render_indexed_triangles()!\n"
-	               "Got [%d, %d] but currently %d indices are set.",
-	               offset, offset + count - 1, index_count);
-	        return;
-	    }
-	    
-	    const int index_data_size = (index_data_type == GL_UNSIGNED_SHORT) ? 2 : 4;
+void set_index_data(u32 *data, u32 size)
+{
+	index_count = size/sizeof(decltype(data[0]));
+	index_data_type = GL_UNSIGNED_INT;
 
-	    glDrawElements(GL_TRIANGLES, count, index_data_type, (void*)(offset * index_data_size));
-	}
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+}
+
+void draw(int count, int offset)
+{
+	if (offset < 0 || (offset + count) > index_count)
+    {
+        printf("Invalid range passed to render_indexed_triangles()!\n"
+               "Got [%d, %d] but currently %d indices are set.",
+               offset, offset + count - 1, index_count);
+        return;
+    }
+
+    glUseProgram(ID);
+	glBindVertexArray(vao);
+    
+    const int index_data_size = (index_data_type == GL_UNSIGNED_SHORT) ? 2 : 4;
+
+    glDrawElements(GL_TRIANGLES, count, index_data_type, (void*)(offset * index_data_size));
+}
+
 
 }

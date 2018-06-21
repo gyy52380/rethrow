@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "typedef.h"
 
 union Vec2
 {
@@ -29,6 +30,7 @@ inline Vec2 operator-(Vec2 v) 				{ return vec2(-v.x, -v.y); }
 
 inline Vec2 operator-(Vec2 v1, Vec2 v2) 	{ return v1 + (-v2); }
 
+
 union Vec4
 {
 	float data[4];
@@ -37,3 +39,14 @@ union Vec4
 };
 
 inline Vec4 vec4(float x, float y, float z, float w) { return Vec4{ x, y, z, w }; }
+
+
+union Vec4_byte
+{
+	u8 bytes[4];
+	u32 value;
+	struct { u8 r, g, b, a; };
+};
+
+inline Vec4_byte vec4_byte(u8 r, u8 b, u8 g, u8 a) { return Vec4_byte{r, g, b, a}; }
+

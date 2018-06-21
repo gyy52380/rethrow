@@ -2,6 +2,7 @@
 
 #include "shader-triangle.h"
 #include "shader-quad.h"
+#include "shader-indexed-triangle.h"
 
 
 namespace gl::shader
@@ -12,6 +13,7 @@ namespace gl::shader
 	{
 		triangle::init();
 		quad::init();
+		indexed_triangle::init(640, 480);
 	}
 
 	//TODO better update-data interface for renderer users

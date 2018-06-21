@@ -9,8 +9,7 @@
 	"file_exclude_patterns":
 	[
 		"*.vcxproj",
-		"*.vcxproj.filters",
-		"*.vcxproj.user"
+		"*.vcxproj.*"
 	],
 
 	"SublimeLinter":
@@ -28,24 +27,24 @@
 	    }
 	},
 
-	//easy-clang-complete
-	"settings":
-    {
-      "ecc_common_flags": [
-      		"-IC:/Program Files/LLVM/lib/$clang_version/include",
-      		"-I${project_path}/rethrow-project/",
-	        "-I${project_path}/include-dir/"
-      ],
-      "ecc_verbose": true,
-      "ecc_c_flags" : [ "-std=c11" ],
-      "ecc_cpp_flags" : [ "-std=c++17" ],
-      "ecc_triggers" : [ ".", "->", "::", " ", "	", "(", "[", "\"", "/", "<" ],
-      "ecc_use_libclang" : true,
-      "ecc_clang_binary" : "clang++",
-      "ecc_autocomplete_all" : false,
-      "ecc_use_libclang_caching": true,
-      "ecc_show_type_info": true,
-      "ecc_show_type_body" : true,
-      //"hide_default_completions": false,
-    }
+	////easy-clang-complete
+	//"settings":
+    //{
+    //  "ecc_common_flags": [
+    //  		"-IC:/Program Files/LLVM/lib/$clang_version/include",
+    //  		"-I${project_path}/rethrow-project/",
+	//        "-I${project_path}/include-dir/"
+    //  ],
+    //  "ecc_verbose": true,
+    //  "ecc_c_flags" : [ "-std=c11" ],
+    //  "ecc_cpp_flags" : [ "-std=c++17" ],
+    //  "ecc_triggers" : [ ".", "->", "::", " ", "	", "(", "[", "\"", "/", "<" ],
+    //  "ecc_use_libclang" : true,
+    //  "ecc_clang_binary" : "clang++",
+    //  "ecc_autocomplete_all" : false,
+    //  "ecc_use_libclang_caching": true,
+    //  "ecc_show_type_info": true,
+    //  "ecc_show_type_body" : true,
+    //  //"hide_default_completions": false,
+    //}
 }

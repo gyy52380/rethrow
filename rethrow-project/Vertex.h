@@ -7,5 +7,5 @@ struct Vertex
 {
 	Vec2 position;
 	Vec2 uv;
-	Vec4 color;
+	Vec4_byte color;
 };

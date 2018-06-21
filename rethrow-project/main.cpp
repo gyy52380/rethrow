@@ -11,6 +11,7 @@
 #include "shader-manager.h"
 #include "shader-triangle.h"
 #include "shader-quad.h"
+#include "shader-indexed-triangle.h"
 #include "renderer.h"
 #include "texture-manager.h"
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[])
 	}
 
 	//triangle test
-	const Vec4 red = vec4(1, 0, 0, 1);
+	static const Vec4_byte red = vec4_byte(255, 0, 0, 255);
 	static Vertex triangle[3];
 
 	static Vec2 positions[3] = { vec2(5, 2), vec2(0, 11), vec2(4, 2) }; //colinear lol
@@ -52,6 +53,19 @@ int main(int argc, char *argv[])
 	gl::shader::quad::update_data_wh(&q_wh);
 	gl::shader::quad::update_data_tex(&q_tex);
 
+	//indexed triangle test
+	static const Vec4_byte blue = vec4_byte(0, 255, 0, 255);
+	static Vertex blue_quad[4] = {
+		{{0.0f, 0.0f}, 		{0.0f, 0.0f}, blue},
+		{{100.0f, 0.0f}, 	{1.0f, 0.0f}, blue},
+		{{0.0f, 100.0f}, 	{0.0f, 1.0f}, blue},
+		{{100.0f, 100.0f}, 	{1.0f, 1.0f}, blue}
+	};
+
+	static u16 indices[6] = {0, 1, 2, 1, 2, 3};
+
+	gl::shader::indexed_triangle::set_vertex_data(blue_quad, sizeof(blue_quad));
+	gl::shader::indexed_triangle::set_index_data(indices, sizeof(indices));
 
 	while (io::user_quit != true)
 	{
@@ -67,6 +81,9 @@ int main(int argc, char *argv[])
 
 		gl::renderer::clear_screen();
 		gl::shader::draw_all();
+
+		gl::shader::indexed_triangle::draw(6, 0);
+
 		window::swap_buffers();
 
 		if (io::key_released[KEY_q])
