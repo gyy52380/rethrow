@@ -33,7 +33,8 @@ namespace gl::shader
 	 	
 	void set_mat2(GLuint ID, const char* name, const glm::mat2 &mat); 
 	void set_mat3(GLuint ID, const char* name, const glm::mat3 &mat); 
-	void set_mat4(GLuint ID, const char* name, const glm::mat4 &mat); 
+	void set_mat4(GLuint ID, const char* name, const glm::mat4 &mat);
+	void set_mat4(GLuint ID, const char* name, const float* mat);
 
 
 }

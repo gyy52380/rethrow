@@ -18,6 +18,7 @@
 #include "gl.h"
 
 #include "ui.h"
+#include "lib/imgui/imgui.h"
 
 
 #undef main
@@ -73,9 +74,18 @@ int main(int argc, char *argv[])
 	{
 		io::update();
 
+		////
 		ui::begin_frame();
-		ui::end_frame();
+		ImGui::Begin("test", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Text("Hello, world %d", 123);
+		static float f = 5;
+		if (ImGui::Button("Save"))
+		{
+		    f += 0.5f;
+		}
 
+		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+		////
 
 		if (io::key_held[KEY_w]) q_pos.y += 0.01f;
 		if (io::key_held[KEY_s]) q_pos.y -= 0.01f;
@@ -90,6 +100,7 @@ int main(int argc, char *argv[])
 
 		gl::shader::indexed_triangle::draw(6, 0);
 
+		ui::end_frame();
 		window::swap_buffers();
 
 		if (io::key_released[KEY_q])

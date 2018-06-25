@@ -21,7 +21,7 @@ void main()
 {
 	gl_Position = transform*vec4(position, 0, 1);
 
-	vs_out.uv = vec2(uv.x, 1.0f-uv.y);
+	vs_out.uv = vec2(uv.x, /*1.0f-*/uv.y);
 	vs_out.color = color;
 }
 

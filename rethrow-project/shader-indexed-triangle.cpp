@@ -57,7 +57,7 @@ void init(float screen_width, float screen_height)
 		glEnableVertexAttribArray(i);
 
 	const glm::mat4 ortho = glm::ortho(0.0f, screen_width, 0.0f, screen_height);
-	set_mat4(ID, "transform", ortho);
+	//set_mat4(ID, "transform", ortho);
 }
 
 void set_vertex_data(Vertex *data, u32 size)

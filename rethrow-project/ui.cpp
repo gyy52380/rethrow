@@ -8,9 +8,13 @@
 #include "lib/imgui/imgui.h"
 #include "io.h"
 #include "window.h"
+#include "texture-manager.h"
 
 #include "shader-base.h"
 #include "shader-indexed-triangle.h"
+
+//#include <glm/gtc/type_ptr.hpp>
+#include <stdio.h>
 
 namespace ui
 {
@@ -54,6 +58,16 @@ void init()
     io.SetClipboardTextFn = set_clipboard_text;
     io.GetClipboardTextFn = get_clipboard_text;
     io.ClipboardUserData  = NULL;
+
+    //load default font atlas
+    gl::texture::Texture font;
+    font.channels = 4;
+
+    io.Fonts->GetTexDataAsRGBA32((u8**) &font.data, &font.w, &font.h);
+    gl::texture::make_texure_from_bytes(&font);
+    //texture data is freed with ui::cleanup()
+    
+    io.Fonts->TexID = (void*)font.ID;
 }
 
 void cleanup()
@@ -122,8 +136,8 @@ void begin_frame()
 	const int drawable_h 	= window::drawable_height;
 
 	io.DisplaySize = ImVec2((float)screen_w, (float)screen_h);
-	io.DisplayFramebufferScale = ImVec2(screen_w > 0 ? ((float)drawable_w / screen_w) : 0,
-										screen_h > 0 ? ((float)drawable_h / screen_h) : 0);
+	io.DisplayFramebufferScale = ImVec2(screen_w > 0 ? ((float)drawable_w / (float)screen_w) : 0,
+										screen_h > 0 ? ((float)drawable_h / (float)screen_h) : 0);
 
 
 	double current_time = SDL_GetTicks() / 1000.0f;
@@ -149,12 +163,6 @@ void begin_frame()
 
     SDL_ShowCursor(io.MouseDrawCursor ? 0 : 1);
     ImGui::NewFrame();
-
-	//this will probably have to be changed
-    ImGui::SetNextWindowPos(ImVec2(600, 20), ImGuiSetCond_FirstUseEver);
-    ImGui::SetNextWindowSize(ImVec2(350, 200), ImGuiSetCond_FirstUseEver);
-
-    ImGui::Begin("Scene", NULL, ImGuiWindowFlags_NoCollapse);
 }
 
 void end_frame()
@@ -193,8 +201,18 @@ void render_ui(ImDrawData* draw_data)
 
     const GLuint shader_ID = gl::shader::indexed_triangle::ID;
 
-    const glm::mat4 ortho_transform = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
-    gl::shader::set_mat4(shader_ID, "transform", ortho_transform);
+    //const glm::mat4 ortho_transform = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
+    //gl::shader::set_mat4(shader_ID, "transform", ortho_transform);
+
+    glViewport(0, 0, (GLsizei)width, (GLsizei)height);
+    const float ortho_projection[4][4] =
+    {
+        { 2.0f/io.DisplaySize.x, 0.0f,                   0.0f, 0.0f },
+        { 0.0f,                  2.0f/-io.DisplaySize.y, 0.0f, 0.0f },
+        { 0.0f,                  0.0f,                  -1.0f, 0.0f },
+        {-1.0f,                  1.0f,                   0.0f, 1.0f },
+    };
+    gl::shader::set_mat4(shader_ID, "transform", (float*)ortho_projection);
 
 
     for (int n = 0; n < draw_data->CmdListsCount; n++)
@@ -209,11 +227,11 @@ void render_ui(ImDrawData* draw_data)
 		 *{							{
 		 *    ImVec2  pos;				Vec2 position;
 		 *    ImVec2  uv;				Vec2 uv;
-		 *    ImU32   col;				Vec4_bytes color; (== u32)
+		 *    ImU32   col;				Vec4_byte color; (== u32)
 		 *};						};
         */
-        set_vertex_data((Vertex*)cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size);
-        set_index_data(cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size);
+        set_vertex_data((Vertex*)cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size * sizeof(ImDrawVert)); //takes in size in bytes
+        set_index_data(cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx));
 
         //drawing
         int offset = 0;

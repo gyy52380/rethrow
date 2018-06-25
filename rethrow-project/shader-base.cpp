@@ -126,5 +126,8 @@ namespace gl::shader
 	void set_mat4(GLuint ID, const char* name, const glm::mat4 &mat) 
 	{ glUseProgram(ID); glUniformMatrix4fv(glGetUniformLocation(ID, name), 1, GL_FALSE, &mat[0][0]); }
 
+	void set_mat4(GLuint ID, const char* name, const float* mat)
+	{ glUseProgram(ID); glUniformMatrix4fv(glGetUniformLocation(ID, name), 1, GL_FALSE, mat); }
+
 
 }
