@@ -9,6 +9,7 @@
 
 namespace gl
 {
+	//loads image of any format supported by stb_image and makes rgba opengl texture, also frees raw data
 	void make_texture_from_file(Texture *tex, const char *path)
 	{
 		
@@ -19,6 +20,8 @@ namespace gl
 			return;
 		}
 
+		//stb loads image data so that first pixel is the top left one, while opengl maps
+		//uv cords (0.0, 0.0) to the bottom left pixel. this inverts the raw image data. 
 		const int scanline_count 	= tex->h;
 		const int scanline_width 	= tex->w * 4; //4 bytes per pixel (for every channel)
 		const int pixel_count 		= scanline_count * scanline_width;
@@ -54,7 +57,7 @@ namespace gl
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	}
 
-	//this doesnt free *data, used for loading imgui fonts for example
+	//this doesnt free the raw image data, used for loading imgui fonts for example (imgui frees data)
 	void make_texture_from_bytes(Texture *tex, u8 *data)
 	{
 		glGenTextures(1, &tex->ID);
