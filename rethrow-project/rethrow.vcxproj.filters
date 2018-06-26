@@ -37,9 +37,6 @@
     <ClInclude Include="Texture.h">
       <Filter>opengl\shaders\texture</Filter>
     </ClInclude>
-    <ClInclude Include="texture-manager.h">
-      <Filter>opengl\shaders\texture</Filter>
-    </ClInclude>
     <ClInclude Include="window.h">
       <Filter>sdl</Filter>
     </ClInclude>
@@ -67,6 +64,9 @@
     <ClInclude Include="lib\imgui\stb_truetype.h">
       <Filter>lib\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="shaders.h">
+      <Filter>opengl\shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -91,9 +91,6 @@
     <ClCompile Include="shader-quad.cpp">
       <Filter>opengl\shaders\single shaders</Filter>
     </ClCompile>
-    <ClCompile Include="texture-manager.cpp">
-      <Filter>opengl\shaders\texture</Filter>
-    </ClCompile>
     <ClCompile Include="window.cpp">
       <Filter>sdl</Filter>
     </ClCompile>
@@ -108,6 +105,12 @@
     </ClCompile>
     <ClCompile Include="lib\imgui\imgui_draw.cpp">
       <Filter>lib\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>opengl\shaders\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders.cpp">
+      <Filter>opengl\shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
