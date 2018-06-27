@@ -4,7 +4,7 @@
 
 #include <cstdio>
 
-#include "shader-manager.h"
+#include "shaders.h"
 #include "window.h"
 
 #ifdef GL_DEBUG
@@ -82,9 +82,21 @@ bool init()
 	return true;
 }
 
+void cleanup()
+{
+	shader::cleanup_all();
+}
+
 void update_viewport(int w, int h, int blx, int bly) //bottom left x y
 {
 	glViewport(blx, bly, w, h);
 }
+
+void clear_screen()
+{
+	glClearColor(144.0f/255.0f, 150.0f/255.0f, 160.0f/255, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
 
 }

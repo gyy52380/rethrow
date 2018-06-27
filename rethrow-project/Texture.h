@@ -32,7 +32,7 @@ namespace gl
 		std::string name;
 		
 		int w, h;
-		int channels = 4;
+		int channels; //actual number of channels
 		u8 *data;
 	};
 

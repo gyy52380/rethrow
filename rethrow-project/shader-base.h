@@ -5,15 +5,17 @@
 
 #include "Vector.h"
 
-namespace gl::shader
+
+namespace internal
 {
-
-
 	GLuint compile_shader(const char* path, GLenum shader_type);
 	void link_shader_program(GLuint id);
+}
 
+namespace util
+{
 
-	//for setting uniforms
+	// for setting uniforms
 
 	void set_bool(GLuint ID, const char* name, bool value); 		
 	void set_int(GLuint ID, const char* name, int value); 	
@@ -35,6 +37,5 @@ namespace gl::shader
 	void set_mat3(GLuint ID, const char* name, const glm::mat3 &mat); 
 	void set_mat4(GLuint ID, const char* name, const glm::mat4 &mat);
 	void set_mat4(GLuint ID, const char* name, const float* mat);
-
 
 }

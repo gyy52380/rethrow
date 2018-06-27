@@ -8,10 +8,9 @@
 #include "lib/imgui/imgui.h"
 #include "io.h"
 #include "window.h"
-#include "texture-manager.h"
+#include "Texture.h"
 
-#include "shader-base.h"
-#include "shader-indexed-triangle.h"
+#include "shaders.h"
 
 //#include <glm/gtc/type_ptr.hpp>
 #include <stdio.h>
@@ -60,14 +59,13 @@ void init()
     io.ClipboardUserData  = NULL;
 
     //load default font atlas
-    gl::texture::Texture font;
-    font.channels = 4;
+    gl::Texture font;
+    font.name = "ImGui font atlas";
 
     io.Fonts->GetTexDataAsRGBA32((u8**) &font.data, &font.w, &font.h);
-    gl::texture::make_texure_from_bytes(&font);
-    //texture data is freed with ui::cleanup()
-    
+    gl::make_texture_from_bytes(&font, font.data);
     io.Fonts->TexID = (void*)font.ID;
+    //texture data is freed with ui::cleanup()
 }
 
 void cleanup()
@@ -197,9 +195,9 @@ void render_ui(ImDrawData* draw_data)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     //sending to shader and drawing
-    using namespace gl::shader::indexed_triangle;
+    using namespace gl::shader;
 
-    const GLuint shader_ID = gl::shader::indexed_triangle::ID;
+    const GLuint shader_ID = indexed_triangle_ui::ID;
 
     //const glm::mat4 ortho_transform = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
     //gl::shader::set_mat4(shader_ID, "transform", ortho_transform);
@@ -212,7 +210,7 @@ void render_ui(ImDrawData* draw_data)
         { 0.0f,                  0.0f,                  -1.0f, 0.0f },
         {-1.0f,                  1.0f,                   0.0f, 1.0f },
     };
-    gl::shader::set_mat4(shader_ID, "transform", (float*)ortho_projection);
+    util::set_mat4(shader_ID, "transform", (float*)ortho_projection);
 
 
     for (int n = 0; n < draw_data->CmdListsCount; n++)
@@ -230,8 +228,8 @@ void render_ui(ImDrawData* draw_data)
 		 *    ImU32   col;				Vec4_byte color; (== u32)
 		 *};						};
         */
-        set_vertex_data((Vertex*)cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size * sizeof(ImDrawVert)); //takes in size in bytes
-        set_index_data(cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx));
+        indexed_triangle_ui::set_vertex_data((Vertex*)cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size); //takes in size in bytes
+        indexed_triangle_ui::set_index_data(cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size);
 
         //drawing
         int offset = 0;
@@ -247,7 +245,7 @@ void render_ui(ImDrawData* draw_data)
             	glBindTexture(GL_TEXTURE_2D, (GLuint)cmd->TextureId); //ABSTRACT THIS OUT ASAP!!!
                 glScissor((int) cmd->ClipRect.x, (int)(height - cmd->ClipRect.w), (int)(cmd->ClipRect.z - cmd->ClipRect.x), (int)(cmd->ClipRect.w - cmd->ClipRect.y));
 
-                gl::shader::indexed_triangle::draw(cmd->ElemCount, offset);
+                indexed_triangle_ui::render(cmd->ElemCount, offset);
             }
             offset += cmd->ElemCount;
         }

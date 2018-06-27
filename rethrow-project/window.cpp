@@ -80,6 +80,7 @@ namespace window
 		SDL_GL_DeleteContext(the_gl_context);
 		SDL_DestroyWindow(the_window);
 
+		gl::cleanup();
 		ui::cleanup();
 		SDL_Quit();
 	}

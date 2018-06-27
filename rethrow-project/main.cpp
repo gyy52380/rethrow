@@ -8,53 +8,43 @@
 
 #include "Vector.h"
 #include "Vertex.h"
-#include "shader-manager.h"
-#include "shader-triangle.h"
-#include "shader-quad.h"
-#include "shader-indexed-triangle.h"
-#include "renderer.h"
-#include "texture-manager.h"
-
+#include "shaders.h"
+#include "macros.h"
 #include "gl.h"
 
 #include "ui.h"
 #include "lib/imgui/imgui.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 
 #undef main
 int main(int argc, char *argv[])
 {
-	bool window_init_status = window::init();
-	if (window_init_status == false)
+	bool window_inited = window::init();
+	if (!window_inited)
 	{
 		printf("Window and backend (SDL2) failed to initalize!\n");
 		window::cleanup();
 		return -1;
 	}
 
-	//triangle test
-	static const Vec4_byte red = vec4_byte(255, 0, 0, 255);
-	static Vertex triangle[3];
-
-	static Vec2 positions[3] = { vec2(5, 2), vec2(0, 11), vec2(4, 2) }; //colinear lol
-	gl::renderer::convert_coords_to_gl_space(vec2(10.0f, 10.0f), positions, 3);
-
-	for (int i = 0; i < 3; i++)
-		triangle[i] = {positions[i], vec2(0, 0), red};
-
-	gl::shader::triangle::update_data(triangle, 3);
-
 
 	//quad test
 	Vec2 q_pos = vec2(0.0f, 5.0f);
 	Vec2 q_wh = vec2(10.0f, 10.0f);
 
-	gl::texture::Texture q_tex = gl::texture::make_simple_texture("../data/textures/sample_atlas.png");
+	gl::Texture q_tex;
+	gl::make_texture_from_file(&q_tex, "../data/textures/sample_atlas.png");
 
-	gl::shader::quad::set_count(1);
-	gl::shader::quad::update_data_coord(&q_pos);
-	gl::shader::quad::update_data_wh(&q_wh);
-	gl::shader::quad::update_data_tex(&q_tex);
+	gl::AtlasComponent texture;
+	texture.atlasID = q_tex.ID;
+	texture.uv_position = vec2(0.3, 0.2);
+	texture.uv_wh = vec2(0.7, 0.4);
+
+	gl::shader::quad::set_position_data(&q_pos, 1);
+	gl::shader::quad::set_wh_data(&q_wh, 1);
+	gl::shader::quad::set_texture_data(&texture, 1);
 
 	//indexed triangle test
 	static const Vec4_byte blue = vec4_byte(0, 255, 0, 255);
@@ -67,10 +57,15 @@ int main(int argc, char *argv[])
 
 	static u16 indices[6] = {0, 1, 2, 1, 2, 3};
 
-	gl::shader::indexed_triangle::set_vertex_data(blue_quad, sizeof(blue_quad));
-	gl::shader::indexed_triangle::set_index_data(indices, sizeof(indices));
+	using namespace gl::shader;
 
-	while (io::user_quit != true)
+	indexed_triangle::set_vertex_data(blue_quad, LEN(blue_quad));
+	indexed_triangle::set_index_data(indices, LEN(indices));
+
+	static const glm::mat4 ortho = glm::ortho(0.0f, (float)window::drawable_width, 0.0f, (float)window::drawable_height);
+	util::set_mat4(indexed_triangle::ID, "transform", ortho);
+
+	while (!io::user_quit)
 	{
 		io::update();
 
@@ -83,7 +78,7 @@ int main(int argc, char *argv[])
 		{
 		    f += 0.5f;
 		}
-
+		
 		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 		////
 
@@ -91,16 +86,20 @@ int main(int argc, char *argv[])
 		if (io::key_held[KEY_s]) q_pos.y -= 0.01f;
 		if (io::key_held[KEY_a]) q_pos.x -= 0.01f;
 		if (io::key_held[KEY_d]) q_pos.x += 0.01f;
+		gl::shader::quad::set_position_data(&q_pos, 1);
 
-		gl::shader::quad::set_count(1);
-		gl::shader::quad::update_data_coord(&q_pos);
+		
 
-		gl::renderer::clear_screen();
-		gl::shader::draw_all();
-
-		gl::shader::indexed_triangle::draw(6, 0);
-
+		gl::clear_screen();
 		ui::end_frame();
+
+		glBindTexture(GL_TEXTURE_2D, q_tex.ID);
+
+		indexed_triangle::render(6, 0);
+		quad::render(1, 0);
+		
+
+		
 		window::swap_buffers();
 
 		if (io::key_released[KEY_q])

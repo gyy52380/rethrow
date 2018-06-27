@@ -20,28 +20,28 @@ namespace gl
 			return;
 		}
 
-		//stb loads image data so that first pixel is the top left one, while opengl maps
-		//uv cords (0.0, 0.0) to the bottom left pixel. this inverts the raw image data. 
+		// stb loads image data so that first pixel is the top left one, while opengl maps
+		// uv cords (0.0, 0.0) to the bottom left pixel. this inverts the raw image data. 
 		const int scanline_count 	= tex->h;
 		const int scanline_width 	= tex->w * 4; //4 bytes per pixel (for every channel)
 		const int pixel_count 		= scanline_count * scanline_width;
 
 		tex->data = new u8[pixel_count];
-
+		
 		for (int scanline = 0; scanline < scanline_count; scanline++)
 		{
 			const int stb_scanline = (scanline_count-1) -scanline;
-
+			
 			const int idx 		= scanline 		* scanline_width;
 			const int stb_idx 	= stb_scanline 	* scanline_width;
-
+			
 			memcpy(tex->data+idx, stb_data+stb_idx, scanline_width);
 		}
 
 
 		glGenTextures(1, &tex->ID);
 		glBindTexture(GL_TEXTURE_2D, tex->ID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->w, tex->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->w, tex->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, stb_data);
 
 		stbi_image_free(stb_data);
 		delete[] tex->data;
