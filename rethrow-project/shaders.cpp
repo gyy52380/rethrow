@@ -328,13 +328,6 @@ namespace quad
 
 		for (int i = 0; i <= 3; i++)
 			glEnableVertexAttribArray(i);
-
-		//set uniforms
-		const glm::mat4 projection = glm::ortho(0.0f, 32.0f, 0.0f, 32.0f);
-		util::set_mat4(ID, "projection", projection);
-
-		const Vec2 wh_scale = vec2(2.0f/32.0f, 2.0f/32.0f);
-		util::set_vec2(ID, "wh_scale", wh_scale);
 	}
 
 	// every component of each quad is set seperately (works good with ECS system)

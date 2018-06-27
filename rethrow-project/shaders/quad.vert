@@ -4,9 +4,9 @@
 //uv -> fragment shader
 #version 330 core
 
-uniform mat4 projection;
-uniform vec2 wh_scale;
-
+uniform mat4 transform;
+//uniform vec2 wh_scale_uniform;
+#define wh_scale vec2(transform[0][0], transform[1][1]);
 
 layout(location = 0) in vec2 position; //position of left-most quad vertex
 layout(location = 1) in vec2 wh;   //quad widt and height
@@ -24,31 +24,12 @@ out VS_OUT_GS_IN
 
 } vs_out;
 
-//out VS_OUT_GS_IN
-//{
-//    float width;
-//    float height;
-//
-//    vec2 tex_coord;
-//    float width_uv;
-//    float height_uv;
-//
-//} vs_out;
-
-
 void main()
 {
-    gl_Position = projection * vec4(position, 0, 1);
+    gl_Position = transform * vec4(position, 0, 1);
 
     vs_out.wh = wh * wh_scale;
 
-    vs_out.tex_coord    = tex_coord; //invert y coords in gs
+    vs_out.tex_coord    = tex_coord;
     vs_out.wh_uv        = wh_uv;
-
-    //vs_out.width    = wh.x * wh_scale.x;
-    //vs_out.height   = wh.y * wh_scale.y;
-//
-//    //vs_out.tex_coord    = tex_coord; //invert y coords in gs
-//    //vs_out.width_uv     = wh_uv.x;
-    //vs_out.height_uv    = wh_uv.y;
 }

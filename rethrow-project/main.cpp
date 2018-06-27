@@ -65,6 +65,9 @@ int main(int argc, char *argv[])
 	static const glm::mat4 ortho = glm::ortho(0.0f, (float)window::drawable_width, 0.0f, (float)window::drawable_height);
 	util::set_mat4(indexed_triangle::ID, "transform", ortho);
 
+	static const glm::mat4 grid = glm::ortho(0.0f, 32.0f, 0.0f, 32.0f);
+	util::set_mat4(quad::ID, "transform", grid);
+
 	while (!io::user_quit)
 	{
 		io::update();
