@@ -1,7 +1,8 @@
 #include "window.h"
 
 #include <SDL2/SDL.h>
-#include <cstdio>
+#include <stdio.h>
+#include <windows.h>
 
 #include "gl.h"
 #include "ui.h"
@@ -22,8 +23,12 @@ namespace window
 	int drawable_width = 0;
 	int drawable_height = 0;
 
+	void set_working_directory();
 	bool init()
 	{
+		//sets all paths to be relative to .exe's dir
+		set_working_directory();
+
 		//init sdl
 		if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		{
@@ -94,6 +99,33 @@ namespace window
 	void swap_buffers()
 	{
 		SDL_GL_SwapWindow(the_window);
+	}
+
+	//sets all paths to be relative to .exe's dir
+	void set_working_directory()
+	{
+	    int size = MAX_PATH + 1;
+	    char* dir = (char*) LocalAlloc(LMEM_FIXED, size);
+	    while (GetModuleFileNameA(NULL, dir, size) == size)
+	    {
+	        LocalFree(dir);
+	        size *= 2;
+	        dir = (char*) LocalAlloc(LMEM_FIXED, size);
+	    }
+
+	    char* c = dir;
+	    while (*c) c++;
+	    while (c > dir)
+	    {
+	        c--;
+	        if (*c == '/' || *c == '\\')
+	        {
+	            *(c + 1) = 0;
+	            break;
+	        }
+	    }
+
+	    SetCurrentDirectoryA(dir);
 	}
 
 

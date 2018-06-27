@@ -65,9 +65,9 @@ namespace indexed_triangle
 	{
 		ID = glCreateProgram();
 
-		GLuint vert_id = internal::compile_shader("shaders/indexed-triangle.vert", GL_VERTEX_SHADER);
+		GLuint vert_id = internal::compile_shader("../rethrow-project/shaders/indexed-triangle.vert", GL_VERTEX_SHADER);
 		glAttachShader(ID, vert_id);
-		GLuint frag_id = internal::compile_shader("shaders/indexed-triangle.frag", GL_FRAGMENT_SHADER);
+		GLuint frag_id = internal::compile_shader("../rethrow-project/shaders/indexed-triangle.frag", GL_FRAGMENT_SHADER);
 		glAttachShader(ID, frag_id);
 
 		internal::link_shader_program(ID);
@@ -182,9 +182,9 @@ namespace indexed_triangle_ui
 	{
 		ID = glCreateProgram();
 
-		GLuint vert_id = internal::compile_shader("shaders/indexed-triangle.vert", GL_VERTEX_SHADER);
+		GLuint vert_id = internal::compile_shader("../rethrow-project/shaders/indexed-triangle.vert", GL_VERTEX_SHADER);
 		glAttachShader(ID, vert_id);
-		GLuint frag_id = internal::compile_shader("shaders/indexed-triangle.frag", GL_FRAGMENT_SHADER);
+		GLuint frag_id = internal::compile_shader("../rethrow-project/shaders/indexed-triangle.frag", GL_FRAGMENT_SHADER);
 		glAttachShader(ID, frag_id);
 
 		internal::link_shader_program(ID);
@@ -293,11 +293,11 @@ namespace quad
 	{
 		ID = glCreateProgram();
 
-		GLuint vert_id = internal::compile_shader("shaders/quad.vert", GL_VERTEX_SHADER);
+		GLuint vert_id = internal::compile_shader("../rethrow-project/shaders/quad.vert", GL_VERTEX_SHADER);
 		glAttachShader(ID, vert_id);
-		GLuint geom_id = internal::compile_shader("shaders/quad.geom", GL_GEOMETRY_SHADER);
+		GLuint geom_id = internal::compile_shader("../rethrow-project/shaders/quad.geom", GL_GEOMETRY_SHADER);
 		glAttachShader(ID, geom_id);
-		GLuint frag_id = internal::compile_shader("shaders/quad.frag", GL_FRAGMENT_SHADER);
+		GLuint frag_id = internal::compile_shader("../rethrow-project/shaders/quad.frag", GL_FRAGMENT_SHADER);
 		glAttachShader(ID, frag_id);
 
 		internal::link_shader_program(ID);
@@ -409,10 +409,10 @@ namespace triangle
 	{
 		ID = glCreateProgram();
 
-		//GLuint vert_id = internal::compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/shaders/sample.vert", GL_VERTEX_SHADER);
-		GLuint vert_id = internal::compile_shader("shaders/sample.vert", GL_VERTEX_SHADER);
+		//GLuint vert_id = internal::compile_shader("C:/Users/gabri/source/repos/rethrow/rethrow-project/../rethrow-project/shaders/sample.vert", GL_VERTEX_SHADER);
+		GLuint vert_id = internal::compile_shader("../rethrow-project/shaders/sample.vert", GL_VERTEX_SHADER);
 		glAttachShader(ID, vert_id);
-		GLuint frag_id = internal::compile_shader("shaders/sample.frag", GL_FRAGMENT_SHADER);
+		GLuint frag_id = internal::compile_shader("../rethrow-project/shaders/sample.frag", GL_FRAGMENT_SHADER);
 		glAttachShader(ID, frag_id);
 
 		internal::link_shader_program(ID);

@@ -6,7 +6,7 @@
 
 uniform mat4 transform;
 //uniform vec2 wh_scale_uniform;
-#define wh_scale vec2(transform[0][0], transform[1][1]);
+vec2 wh_scale = vec2(transform[0][0], transform[1][1]);
 
 layout(location = 0) in vec2 position; //position of left-most quad vertex
 layout(location = 1) in vec2 wh;   //quad widt and height
