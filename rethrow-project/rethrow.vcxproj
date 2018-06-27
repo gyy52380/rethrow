@@ -40,6 +40,7 @@
     <ClCompile Include="gl.cpp" />
     <ClCompile Include="io.cpp" />
     <ClCompile Include="lib\imgui\imgui.cpp" />
+    <ClCompile Include="lib\imgui\imgui_demo.cpp" />
     <ClCompile Include="lib\imgui\imgui_draw.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaders.cpp" />

@@ -63,7 +63,7 @@ namespace window
 		}
 
 		update_screen_size();
-
+		SDL_GL_SetSwapInterval(1);
 
 		bool gl_inited = gl::init(); //internal error handling
 		if (gl_inited == false)  

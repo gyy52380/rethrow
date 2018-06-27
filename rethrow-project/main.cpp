@@ -72,8 +72,11 @@ int main(int argc, char *argv[])
 	{
 		io::update();
 
+		
+
 		////
 		ui::begin_frame();
+		ImGui::ShowDemoWindow();
 		ImGui::Begin("test", NULL, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("Hello, world %d", 123);
 		static float f = 5;
