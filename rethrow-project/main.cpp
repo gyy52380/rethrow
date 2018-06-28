@@ -88,11 +88,11 @@ int main(int argc, char *argv[])
 		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 		////
 
-		if (io::key_held[KEY_w]) q_pos.y += 0.01f;
-		if (io::key_held[KEY_s]) q_pos.y -= 0.01f;
-		if (io::key_held[KEY_a]) q_pos.x -= 0.01f;
-		if (io::key_held[KEY_d]) q_pos.x += 0.01f;
-		gl::shader::quad::set_position_data(&q_pos, 1);
+		if (io::key_held[KEY_w]) q_pos.y += 1.0f;
+		if (io::key_held[KEY_s]) q_pos.y -= 1.0f;
+		if (io::key_held[KEY_a]) q_pos.x -= 1.0f;
+		if (io::key_held[KEY_d]) q_pos.x += 1.0f;
+		quad::set_position_data(&q_pos, 1);
 
 		
 
